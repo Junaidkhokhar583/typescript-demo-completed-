@@ -5,6 +5,7 @@ import { supabase } from "./lib/supabase"
 import Login from "./components/Login"
 import Signup from "./components/Signup"
 import ForgotPassword from "./components/ForgotPassword"
+import ResetPassword from "./components/ResetPassword";
 
 
 function App() {
@@ -15,6 +16,7 @@ function App() {
   const [session, setSession] = useState<unknown>(null);
   const [showSignup, setShowSignup] = useState(false);
   const [showForgot, setShowForgot] = useState(false);
+  const [isResetMode, setIsResetMode] = useState(false);
 
 
   async function handleLogout() {
@@ -22,8 +24,6 @@ function App() {
   setSession(null);       
   setMovies([]);          
 }
-
-
 
   async function loadMovies() {
     try {
@@ -43,8 +43,15 @@ function App() {
 
   }
 
-  useEffect(() => {
-     supabase.auth.getSession().then(({ data }) => {
+ useEffect(() => {
+  if (
+    window.location.pathname === "/reset-password" &&
+    window.location.hash.includes("access_token")
+  ) {
+    setIsResetMode(true);
+  }
+
+  supabase.auth.getSession().then(({ data }) => {
     setSession(data.session);
   });
 
@@ -53,14 +60,19 @@ function App() {
   });
 
   return () => listener.subscription.unsubscribe();
-  // loadMovies();
-  }, [])
+}, []);
 
 useEffect(() => {
   if (session) {
     loadMovies();
   }
 }, [session]);
+
+
+if (isResetMode) {
+  return <ResetPassword />;
+}
+
 
  if (!session) {
   if (showForgot) {

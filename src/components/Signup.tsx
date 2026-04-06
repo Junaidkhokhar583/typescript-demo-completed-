@@ -30,11 +30,11 @@ export default function Signup({ onSwitch }: { onSwitch: () => void }) {
           type="password"
           placeholder="Password"
           onChange={(e) => setPassword(e.target.value)}
-            onKeyDown={(e) => {
-    if (e.key === "Enter") {
-      handleSignup();
-    }
-  }}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              handleSignup();
+            }
+          }}
         />
 
         <button
