@@ -1,15 +1,11 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { updatePassword } from "../api/auth";
 import { supabase } from "../lib/supabase";
 
-export default function ResetPassword({ onBack }:{onBack:()=>void}) {
+export default function ResetPassword({ onBack }: { onBack: () => void }) {
   const [password, setPassword] = useState("");
   const [msg, setMsg] = useState("");
   const [error, setError] = useState("");
-
-  useEffect(() => {
-    supabase.auth.getSession();
-  }, []);
 
   async function handleUpdate() {
     try {
@@ -18,7 +14,14 @@ export default function ResetPassword({ onBack }:{onBack:()=>void}) {
 
       await updatePassword(password);
 
-      setMsg("Password updated successfully!");
+      await supabase.auth.signOut();
+
+      setMsg("Password updated successfully! Redirecting to login...");
+
+      setTimeout(() => {
+        onBack();
+      }, 1000);
+
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : "Error updating password");
     }
@@ -49,7 +52,8 @@ export default function ResetPassword({ onBack }:{onBack:()=>void}) {
 
         {msg && <p className="text-green-400">{msg}</p>}
         {error && <p className="text-red-500">{error}</p>}
-          <button
+
+        <button
           onClick={onBack}
           className="text-sm text-blue-400 cursor-pointer hover:underline"
         >
