@@ -70,7 +70,7 @@ useEffect(() => {
 
 
 if (isResetMode) {
-  return <ResetPassword />;
+  return <ResetPassword onBack={() => setShowForgot(false)} />;
 }
 
 

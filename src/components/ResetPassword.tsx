@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { updatePassword } from "../api/auth";
 import { supabase } from "../lib/supabase";
 
-export default function ResetPassword() {
+export default function ResetPassword({ onBack }:{onBack:()=>void}) {
   const [password, setPassword] = useState("");
   const [msg, setMsg] = useState("");
   const [error, setError] = useState("");
@@ -49,6 +49,12 @@ export default function ResetPassword() {
 
         {msg && <p className="text-green-400">{msg}</p>}
         {error && <p className="text-red-500">{error}</p>}
+          <button
+          onClick={onBack}
+          className="text-sm text-blue-400 cursor-pointer hover:underline"
+        >
+          Back to Login
+        </button>
       </div>
     </div>
   );
