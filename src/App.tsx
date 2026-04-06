@@ -70,7 +70,10 @@ useEffect(() => {
 
 
 if (isResetMode) {
-  return <ResetPassword onBack={() => setIsResetMode(false)} />;
+  return <ResetPassword onBack={async() =>  {
+    await supabase.auth.signOut();
+    setIsResetMode(false)}}
+   />;
 }
 
 
