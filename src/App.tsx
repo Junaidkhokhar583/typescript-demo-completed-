@@ -12,7 +12,7 @@ function App() {
   const [query, setQuery] = useState("batman");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null)
-  const [session, setSession] = useState<any>(null);
+  const [session, setSession] = useState<unknown>(null);
   const [showSignup, setShowSignup] = useState(false);
   const [showForgot, setShowForgot] = useState(false);
 
@@ -22,6 +22,7 @@ function App() {
   setSession(null);       
   setMovies([]);          
 }
+
 
 
   async function loadMovies() {
@@ -88,6 +89,11 @@ useEffect(() => {
       className="flex-1 bg-zinc-900 text-white placeholder-zinc-400 px-4 py-2.5 rounded-xl outline-none border border-zinc-700 focus:border-white focus:ring-1 focus:ring-white transition"
       value={query}
       onChange={(e) => setQuery(e.target.value)}
+       onKeyDown={(e) => {
+    if (e.key === "Enter") {
+      loadMovies();
+    }
+  }}
       placeholder="Search movies..."
     />
 

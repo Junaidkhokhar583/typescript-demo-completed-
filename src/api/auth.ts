@@ -19,7 +19,7 @@ export async function signOut() {
 
 export async function forgotPassword(email: string) {
   const { error } = await supabase.auth.resetPasswordForEmail(email, {
-    redirectTo: "http://localhost:5173/reset-password",
+    redirectTo: "https://typescript-demo-completed.vercel.app/",
   });
   if (error) throw error;
 }
